@@ -5,7 +5,6 @@
 import matplotlib.pyplot as plt
 
 def graphme(ml):
-    print 'graphing!'
     for folder in ml.cabinet:
         for littlefile in folder:
             single_graph(littlefile)
