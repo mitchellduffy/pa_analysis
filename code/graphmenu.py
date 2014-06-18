@@ -1,10 +1,15 @@
 
+import sys
+import graphll
+import proc_graph
+
 
 class GraphMenu:
 
     def __init__(self, ml):
+        self.ml = ml
         self.namelist = []
-        for folder in ml.cabinet:
+        for folder in self.ml.cabinet:
             self.namelist.append((folder[0].sample, folder[0].comment))
         self.topmenu()
 
@@ -16,15 +21,66 @@ class GraphMenu:
         print ''
 
     def topmenu(self):
+
+        self.sig = -1
+        self.norm = -1
+        self.ener = -1
+
+        print ''
+        print 'MAIN MENU'
         print 'How would you like to analyze the data?:'
+        print ''
         print '0. RAW graphs with Max/Min plotted'
         print '1. RAW spectra'
         print '2. Blank Normalized spectra'
         print '3. Energy Normalized spectra'
         print '4. Blank and Energy Normalized spectra'
+        print ''
+        print '5. Exit'
+        print ''
+        ans = self.saninput('Input: ', 5)
+
+        if ans == 5:
+            print ''
+            print 'Ciao'
+            print ''
+            sys.exit(0)
+        elif ans == 0:
+            ll = graphll.GraphLL(self.ml)
+        elif ans > 0:
+            self.sig = self.which('Signal')
+
+            if ans == 2 or ans == 4:
+                self.norm = self.which('Blank Normalization')
+
+            if ans > 2:
+                self.ener = 1
+
+        p = proc_graph.ProcGraph(self.ml, self.sig, self.norm, self.ener)
+
+        self.topmenu()
+
+
+
+
+
+
+
+    def which(self, t):
+        print ''
+        print 'Which sample would you like to use as ' + t
+        print ''
         self.display_namelist()
-        ans = self.saninput('Which sample whould you like to analyze? \n', len(self.namelist) - 1)
-        self.wantnorm(ans)
+        print ''
+        print str(len(self.namelist)) + '. Back to Main Menu'
+        print ''
+
+        ans = self.saninput('Input: ', len(self.namelist) - 1 + 1)
+        if ans == len(self.namelist):
+            self.topmenu()
+        else:
+            return ans
+
 
 
     def saninput(self, s, b):
@@ -39,14 +95,6 @@ class GraphMenu:
         else:
             return x
 
-    def wantnorm(self, samp):
-        print '0. Yes\n1. No'
-        ans = self.saninput('Would you like to normalize the data?', 1)
-        if ans == 0:
-            self.display_namelist()
-            norm = self.saninput('Which dataset should be used for normalization?', len(self.namelist) - 1)
-        else:
-            norm = -1
 
 
 

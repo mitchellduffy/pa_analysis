@@ -19,7 +19,12 @@ if not os.path.isdir(path):
 
 print 'Photoacoustic Data Analysis Software'
 print 'Author: Mitchell Duffy'
+print 'License: MIT License'
 print ''
+print 'Building Database...'
+print 'For large directories this may take a few minutes.'
+print ''
+
 
 ml = measure_list.MeasureList()
 
