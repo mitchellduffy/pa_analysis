@@ -11,6 +11,7 @@ class GraphCollect:
         self.wavelengths = [tup[0] for tup in tuples]
         self.avgdiffs = [tup[1] for tup in tuples]
         self.energydiffs = [tup[2] for tup in tuples]
+        self.title = a[0].comment
 
 
 

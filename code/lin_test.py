@@ -5,6 +5,7 @@ import measure_list
 import measurement
 import graphll
 import graphmenu
+import matplotlib.pyplot as plt
 
 if len(sys.argv) < 2:
     sys.exit('Usage: %s dir' % sys.argv[0])
@@ -17,15 +18,12 @@ if not os.path.exists(path):
 if not os.path.isdir(path):
     sys.exit('Error: %s is not recognized as a valid directory' % path)
 
-if not path[-1] == '/':
-    path = path + '/'
-
 print 'Photoacoustic Data Analysis Software'
+print 'Linear Check'
 print 'Author: Mitchell Duffy'
 print 'License: MIT License'
 print ''
 print 'Building Database...'
-print 'For large directories this may take a few minutes.'
 print ''
 
 
@@ -42,9 +40,22 @@ for i in os.listdir(path):
 
         ml.organize(m)
 
-# This fuction is used to check the max/min of each graph in a series
-#graphll.graphme(ml)
 
-menu = graphmenu.GraphMenu(ml)
+r = []
+for [m] in ml.cabinet:
+    r.append((m.energy, m.rawavgdiff))
+    #r.append(int(m.comment.split()[0][:-1]))
+
+r = sorted(r, key=lambda tup:tup[0])
+
+x = [tup[0] for tup in r]
+y = [tup[1] for tup in r]
+
+print x
+print y
+
+
+plt.plot(x, y, 'ro')
+plt.show(block=True)
 
 

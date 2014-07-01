@@ -8,6 +8,7 @@ class ProcGraph:
     def __init__(self, ml, sig, norm, ener):
         self.ml = ml
         signal = graphcollect.GraphCollect(ml, sig)
+        self.title = signal.title
         if norm > -1:
             normalize = graphcollect.GraphCollect(ml, norm)
             if ener > 0:
@@ -28,6 +29,7 @@ class ProcGraph:
 
     def plotme(self):
         plt.plot(self.final[0], self.final[1])
+        plt.suptitle(self.title)
         plt.show(block=True)
 
 

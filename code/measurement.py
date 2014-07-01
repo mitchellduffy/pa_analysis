@@ -89,22 +89,23 @@ class Measurement:
 
     def process(self):
         index = np.argwhere(self.data[:, 0] == 4)[0][0]
-        offset = np.argmax(self.data[index:, 1])
+        bigindex = np.argwhere(self.data[:, 0] == 7)[0][0]
+        offset = np.argmax(self.data[index:bigindex, 1])
         y = self.data[index+offset, 1]
         x = self.data[index+offset, 0]
         self.sig1max = (x, y)
 
-        offset = np.argmin(self.data[index:, 1])
+        offset = np.argmin(self.data[index:bigindex, 1])
         y = self.data[index+offset, 1]
         x = self.data[index+offset, 0]
         self.sig1min = (x, y)
 
-        offset = np.argmax(self.data[index:, 2])
+        offset = np.argmax(self.data[index:bigindex, 2])
         y = self.data[index+offset, 2]
         x = self.data[index+offset, 0]
         self.sig2max = (x, y)
 
-        offset = np.argmin(self.data[index:, 2])
+        offset = np.argmin(self.data[index:bigindex, 2])
         y = self.data[index+offset, 2]
         x = self.data[index+offset, 0]
         self.sig2min = (x, y)
@@ -112,4 +113,7 @@ class Measurement:
         self.raw1diff = self.sig1max[1] + self.sig1min[1]
         self.raw2diff = self.sig2max[1] + self.sig2min[1]
         self.rawavgdiff = (self.raw1diff + self.raw2diff)/2
-        self.energyavgdiff = self.rawavgdiff/self.energy
+        if self.energy == 0:
+            self.energyavgdiff = self.rawavgdiff
+        else:
+            self.energyavgdiff = self.rawavgdiff/self.energy

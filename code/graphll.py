@@ -23,6 +23,7 @@ class GraphLL:
         plt.plot(x, z)
         plt.plot([d.sig1max[0], d.sig1min[0]], [d.sig1max[1], d.sig1min[1]], 'ro')
         plt.plot([d.sig2max[0], d.sig2min[0]], [d.sig2max[1], d.sig2min[1]], 'bo')
+        plt.suptitle(d.filename)
 
         plt.show(block=True)
 
